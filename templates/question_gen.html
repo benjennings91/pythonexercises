@@ -1,0 +1,15 @@
+<html>
+    <head>
+        <title>Question Generator</title>
+    </head>
+    <body>
+        <p id="description"><strong>Description:</strong> {{description}}</p>
+        <iframe src="https://trinket.io/embed/python3/a40028379b3e" width="70%" height="400" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>
+        <p id="correct_answer"><strong>[Correct Answer:</strong> {{correct_answer}}]</p>
+        <form method="post" action="/answer">
+            <input type="hidden" name="task_id" value="{{ task_id }}">
+            <textarea name="answer" rows = 5 cols = 70></textarea>
+            <button type="submit">Check</button>
+        </form>
+    </body>
+</html>

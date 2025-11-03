@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Layout</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #272822; /* Monokai dark bg */
+      color: #F8F8F2;
+      font-family: Arial, sans-serif;
+    }
+
+    .monokai-panel {
+      background-color: #2D2E2C;
+      border: 1px solid #3E3D32;
+      border-radius: 6px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+
+    .editor-box,
+    .terminal-box {
+      background-color: #1E1F1C;
+      border: 1px solid #3E3D32;
+      border-radius: 6px;
+      height: 500px;
+    }
+
+    .next-btn {
+      background-color: #66D9EF;
+      color: #000;
+      font-weight: bold;
+      width: 100%;
+      height: 100%;
+    }
+
+    .run-btn:hover {
+      background-color: #A1EAF7;
+    }
+    
+    #editor_user, #editor_correct {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    }
+    .code {
+    font-family: courier;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container py-4">
+
+  <!-- Title Row with Run Button -->
+  <div class="row g-3 align-items-center monokai-panel">
+    <div class="col-11">
+      <h3 class="m-0">{{ title }}</h3>
+    </div>
+    <div class="col-1">
+      <button id="next" class="btn next-btn" onclick="location.href='/question?task_id={{next_id}}&category={{category}}'">Next</button>
+    </div>
+  </div>
+
+  <!-- Task Description -->
+  <div class="monokai-panel">
+    <h5>Comment:</h5>
+    <p>{{ comment | safe}}</p>
+  </div>
+
+  <!-- Editor + Terminal -->
+  <div class="row g-3">
+    <div class="col-md-6">
+      <div class="editor-box p-3">
+        <h5>Your Code</h5>
+        <div id="editor_user"></div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="editor-box p-3">
+      <h5>Model Answer Code</h5>
+      <div id="editor_correct"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js" integrity="sha512-ZIa+FlPaGDSM+lTl9JaxnQvcfma7ETsOHd9Thbhp5u4RX1uYiDNW7XvUrXv4dJSPetXbiTzWilHEkSg4YpmltQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    function unescape(escaped_string) {
+    return escaped_string
+        .replaceAll("&#39;", "'")
+        .replaceAll("&#34;", '"')
+        .replaceAll("&lt;", "<")
+        .replaceAll("&gt;", ">")
+        .replaceAll("&amp;", "&");
+}
+    var editor_user = ace.edit("editor_user");
+    var editor_correct = ace.edit("editor_correct");
+    editor_user.setTheme("ace/theme/monokai");
+    editor_correct.setTheme("ace/theme/monokai");
+    editor_user.session.setMode("ace/mode/python");
+    editor_correct.session.setMode("ace/mode/python");
+    editor_user.setOptions({ fontSize: "16px" });
+    editor_correct.setOptions({ fontSize: "16px" });
+    editor_user.insert(unescape("{{ user_code }}"));
+    editor_correct.insert(unescape("{{ correct_code }}"));
+    editor_user.setReadOnly(true);
+    editor_correct.setReadOnly(true);
+</script>
+</body>
+</html>
