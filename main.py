@@ -92,6 +92,16 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
     
+@app.get("/", response_class=HTMLResponse)
+def index(request: Request, session: Session = Depends(get_session)):
+    q = select(CategoryORM)
+    categories = list(session.scalars(q))
+    cats_as_dicts = []
+    for category in categories:
+        cats_as_dicts.append({"id": category.id, "name": category.name})
+    return templates.TemplateResponse("index.html", {"request": request, "categories": cats_as_dicts})
+    
+    
 @app.get("/mini-coi.js")
 def mini_coi():
     return FileResponse(os.path.join(os.path.dirname(__file__), "mini-coi.js"),

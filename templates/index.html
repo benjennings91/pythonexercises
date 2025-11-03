@@ -1,0 +1,9 @@
+<html>
+    <head>
+    </head>
+    <body>
+    {% for category in categories %}
+    <a href="\question?category={{ category.id }}&task_id=1">{{ category.name }}</a><br>
+    {% endfor %}
+    </body>
+</html>
