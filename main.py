@@ -20,12 +20,26 @@ from db import Session
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.sql import func
+from starlette.middleware.base import BaseHTTPMiddleware
 
 class Evaluation(BaseModel):
     score: int = Field(description="Score out of 10 for how well it meets description")
     comment: str = Field(description="Comment on how well the user answer meets the task description, and advice for how to improve it.")
 
 app = FastAPI()
+
+class CrossOriginIsolationMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request, call_next):
+        resp = await call_next(request)
+        resp.headers["Cross-Origin-Opener-Policy"] = "same-origin"
+        resp.headers["Cross-Origin-Embedder-Policy"] = "require-corp"
+        # Recommended so you can host pyodide/wasm on same or other origins
+        resp.headers["Cross-Origin-Resource-Policy"] = "cross-origin"
+        return resp
+
+app.add_middleware(CrossOriginIsolationMiddleware)
+
+
 templates = Jinja2Templates(directory="templates")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token", auto_error=False)
 password_hash = PasswordHash.recommended()
