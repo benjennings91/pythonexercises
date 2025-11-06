@@ -86,7 +86,7 @@
     <div class="col-1">
       <form method="post" action="/answer?task_id={{task_id}}&category={{category}}" onsubmit="load_code()">
         <input id = "user_code" type="hidden" name="user_code">
-        <input type="submit" class="btn submit-btn" value="Submit">
+        <input id = "submit_btn" type="submit" class="btn submit-btn" value="Submit" onclick="disable_btn()">
       </form>
     </div>
   </div>
@@ -116,6 +116,12 @@
                 function load_code() {
                     editor = ace.edit("editor");
                     document.getElementById("user_code").value = editor.getValue();
+                }
+                
+                function disable_btn() {
+                    btn = document.getElementById("submit_btn");
+                    btn.disabled = true;
+                    btn.form.submit();
                 }
             </script>
             <script id="pyterm" type="py" terminal worker>
