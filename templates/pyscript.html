@@ -84,7 +84,7 @@
       <button id="run" class="btn run-btn" onclick="update_code()">Run</button>
     </div>
     <div class="col-1">
-      <form method="post" action="/answer?task_id={{task_id}}&category={{category}}" onsubmit="load_code()">
+      <form method="post" action="/answer?task_id={{task_id}}&category={{category}}">
         <input id = "user_code" type="hidden" name="user_code">
         <input id = "submit_btn" type="submit" class="btn submit-btn" value="Submit" onclick="disable_btn()">
       </form>
@@ -119,6 +119,7 @@
                 }
                 
                 function disable_btn() {
+                    load_code();
                     btn = document.getElementById("submit_btn");
                     btn.disabled = true;
                     btn.form.submit();
