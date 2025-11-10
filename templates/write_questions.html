@@ -1,0 +1,58 @@
+<html>
+    <head>
+        <title>Question Builder</title>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"></script>
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+            <style>
+            .code {
+                font-family: courier;
+            }
+            
+            .variable {
+                color: red;
+            }
+            </style>
+            <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row" style="text-align:center;">
+            <h4>Task Description</h4>
+            </div>
+            <div class="row" style="text-align:center;" onchange="display()">
+                <div class="col-7">
+                <textarea id="input" cols=80 rows=8 style="margin: 10px;"></textarea>
+                </div>
+                <div class="col-5">
+                <div id="display"></display>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <h4>Starting Code</h4>
+                </div>
+                <div class="col-6">
+                    <h4>Model Code</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                <div id="starting_code" style="position: relative; width: 100%; height: 500px;"></div>
+                </div>
+                <div class="col-6">
+                <div id="model_code" style="position: relative; width: 100%; height: 500px;"></div>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.43.2/ace.js" integrity="sha512-ZIa+FlPaGDSM+lTl9JaxnQvcfma7ETsOHd9Thbhp5u4RX1uYiDNW7XvUrXv4dJSPetXbiTzWilHEkSg4YpmltQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script>
+            function display() {
+                document.getElementById("display").innerHTML = document.getElementById("input").value;
+            }
+            var editor_starting = ace.edit("starting_code");
+            var editor_model = ace.edit("model_code");
+            editor_starting.session.setMode("ace/mode/python");
+            editor_model.session.setMode("ace/mode/python");
+        </script>
+    </body>
+</html>

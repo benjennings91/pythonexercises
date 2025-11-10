@@ -111,6 +111,9 @@ def mini_coi():
 async def question(request: Request, category: int = 1, task_id: int = 1, session: Session = Depends(get_session)):
     q = select(CategoryORM).where(CategoryORM.id == category)
     title = session.scalar(q).name
+    count = len(session.scalars(select(TaskORM).where(TaskORM.category == 6)).all())
+    if task_id > count:
+        return templates.TemplateResponse("complete.html", {"request": request})
     q = select(TaskORM).where(TaskORM.category == category).where(TaskORM.task_id == task_id)
     task = session.scalar(q)
     description = task.description
@@ -138,7 +141,7 @@ async def answer(request: Request, user_code: str | None = Form(...), category: 
       messages=[
         {
           "role": "system",
-          "content": "Decide how well the written code (in python) fulfills the listed task. Provide a score out of 10 and a comment explaining the evaluation and providing improvement advice. Note the task description may contain HTML formatting to allow it to display properly, but the user themselves are never required to use HTML type formatting. Make no reference to it in your evaluation."
+          "content": "Decide how well the written code (in python) fulfills the listed task. Provide a score out of 10 and a comment explaining the evaluation and explaining how to fix any errors. Note the task description may contain HTML formatting to allow it to display properly, but the user themselves are never required to use HTML type formatting. Make no reference to it in your evaluation."
         },
         {
           "role": "user",
