@@ -29,7 +29,7 @@ class TaskORM(Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     category: Mapped[int]
     task_id: Mapped[int]
-    description: Mapped[str] = mapped_column(String(1024), nullable=False)
+    description: Mapped[str] = mapped_column(String(2048), nullable=False)
     starting_code: Mapped[str] = mapped_column(String(512), nullable=True)
     correct_answer: Mapped[str] = mapped_column(String(1024), nullable=False)
     
