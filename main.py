@@ -111,7 +111,7 @@ def mini_coi():
 async def question(request: Request, category: int = 1, task_id: int = 1, session: Session = Depends(get_session)):
     q = select(CategoryORM).where(CategoryORM.id == category)
     title = session.scalar(q).name
-    count = len(session.scalars(select(TaskORM).where(TaskORM.category == 6)).all())
+    count = len(session.scalars(select(TaskORM).where(TaskORM.category == category)).all())
     if task_id > count:
         return templates.TemplateResponse("complete.html", {"request": request})
     q = select(TaskORM).where(TaskORM.category == category).where(TaskORM.task_id == task_id)
