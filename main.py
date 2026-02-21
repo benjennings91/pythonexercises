@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 from urllib.parse import urlencode
 
 import jwt
-from fastapi import Depends, FastAPI, Request, Form, HTTPException
+from fastapi import Depends, FastAPI, Request, Form, HTTPException, WebSocket, WebSocketDisconnect
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse, RedirectResponse, FileResponse
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
@@ -101,6 +101,9 @@ def index(request: Request, session: Session = Depends(get_session)):
         cats_as_dicts.append({"id": category.id, "name": category.name})
     return templates.TemplateResponse("index.html", {"request": request, "categories": cats_as_dicts})
     
+@app.get("/html", response_class=HTMLResponse)
+def index(request: Request, session: Session = Depends(get_session)):
+    return templates.TemplateResponse("lesson_list.html", {"request": request})
     
 @app.get("/mini-coi.js")
 def mini_coi():
@@ -212,4 +215,3 @@ async def logout(request: Request):
     response = RedirectResponse(url="/login", status_code=303)
     response.delete_cookie("access_token")
     return response
-
